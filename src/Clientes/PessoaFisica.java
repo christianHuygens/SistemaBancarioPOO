@@ -1,6 +1,6 @@
 package Clientes;
 
-public class PessoaFisica extends Cliente {
+public class PessoaFisica extends Cliente implements InterfacePessoaFisica {
 
 	public PessoaFisica(String nome, String telefone, String email, String cpf) {
 		super(nome, telefone, email);
