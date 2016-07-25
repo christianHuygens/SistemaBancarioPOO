@@ -1,7 +1,10 @@
 package Agencia;
+import java.util.Date;
+
+import Clientes.Cliente; // Está correto?
 
 public interface InterfaceContaPoupanca extends InterfaceConta {
-	Data getAniversario();
+	Date getAniversario();
 	void setAniversario();
 	void calcularRendimento();
 	

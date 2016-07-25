@@ -1,4 +1,7 @@
 package Agencia;
+import Clientes.Cliente; // Está correto?
+
+
 
 public interface InterfaceConta {
 	boolean sacar(double valor);
@@ -7,12 +10,6 @@ public interface InterfaceConta {
 	void cancelarConta();
 	Cliente VerInformaçõesCliente();
 	boolean transferirValor(int numConta, int NumAgencia, double valor);
-	void mudarLimieteConta(double limite);
 	String verSituacaoConta();
-	double getNumero();
-	void setNumero();
-	double getAtiva();
-	void setAtiva();
-	double getSaldo();
-	void setSaldo();
+
 }

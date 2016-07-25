@@ -1,4 +1,5 @@
 package Agencia;
+import Clientes.Cliente; // Está correto?
 
 public class Agencia implements InterfaceAgencia {
 

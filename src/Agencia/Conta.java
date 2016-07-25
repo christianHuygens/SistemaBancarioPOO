@@ -1,33 +1,67 @@
 package Agencia;
+import Clientes.Cliente; // Está correto?
 
 public abstract class Conta implements InterfaceConta {
 
+	final int numero;
+	boolean ativa;
+	double saldo;
+	
+	public Conta(int numero, int saldo){
+		this.numero = numero;
+		this.saldo = saldo;
+		this.ativa = true;
+	}
+	
 	public abstract boolean sacar(double valor);
 
-	public abstract void depositar(double valor);
+	//adiciona valor ao saldo
+	public void depositar(double valor){
+		if(this.isAtiva())
+			this.saldo = this.saldo+valor;
+	}
 
-	public abstract double verSaldo(double valor);
+	// retorna saldo
+	public double verSaldo(double valor){
+		return this.saldo;
+	}
 
-	public abstract void cancelarConta();
+	//saca saldo disponível e muda boolean ativa para false
+	public void cancelarConta(){
+		if(this.isAtiva()){
+			if(this.saldo>0){
+				this.sacar(this.saldo);
+			}else{
+				//tratar erro: realizar deposito
+			}
+			this.setAtiva(false);
+		}else{
+			// tratar erro: imprimir que conta já está encerrada
+		}
+	}
 
 	public abstract boolean transferirValor(int numConta, int NumAgencia, double valor);
 
-	public abstract void mudarLimieteConta(double limite);
-
 	public abstract String verSituacaoConta();
 
-	public abstract double getNumero();
+	public Cliente VerInformaçõesCliente(){
+		//implementar aqui
+		return null;
+	}
 
-	public abstract void setNumero();
-
-	public abstract double getAtiva();
-
-	public abstract void setAtiva();
-
-	public abstract double getSaldo();
-
-	public abstract void setSaldo();
-
-	public abstract Cliente VerInformaçõesCliente();
+	// retorna numero de conta
+	public int getNumero() {
+		return numero;
+	}
+	
+	//retorna se conta está ativa
+	public boolean isAtiva() {
+		return ativa;
+	}
+	
+	// muda status da conta
+	public void setAtiva(boolean ativa) {
+		this.ativa = ativa;
+	}	
 
 }

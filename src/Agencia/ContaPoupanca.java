@@ -1,29 +1,38 @@
 package Agencia;
+import Clientes.Cliente; // Está correto?
+import java.util.Date;
 
-public class ContaPoupanca implements InterfaceContaPoupanca {
+public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 
+	public ContaPoupanca(int numero, int saldo) {
+		super(numero, saldo);
+	}
+
+	public boolean sacar(double valor){
+		if (this.saldo>valor && this.isAtiva()) // poupança não tem limite
+			this.saldo = this.saldo - valor;
+		else{
+			return false;
+		}
+		return true;
+	}
+	
 	@Override
-	public boolean sacar(double valor) {
+	public Date getAniversario() {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
-	public void depositar(double valor) {
+	public void setAniversario() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public double verSaldo(double valor) {
+	public void calcularRendimento() {
 		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void cancelarConta() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -33,73 +42,7 @@ public class ContaPoupanca implements InterfaceContaPoupanca {
 	}
 
 	@Override
-	public void mudarLimieteConta(double limite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String verSituacaoConta() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double getNumero() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setNumero() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public double getAtiva() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setAtiva() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public double getSaldo() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setSaldo() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setAniversario() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void calcularRendimento() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Cliente VerInformaçõesCliente() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Data getAniversario() {
 		// TODO Auto-generated method stub
 		return null;
 	}
