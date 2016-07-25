@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 
-	public ContaPoupanca(int numero, int saldo) {
+	public ContaPoupanca(int numero, double saldo) {
 		super(numero, saldo);
 	}
 

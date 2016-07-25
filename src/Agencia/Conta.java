@@ -7,7 +7,7 @@ public abstract class Conta implements InterfaceConta {
 	boolean ativa;
 	double saldo;
 	
-	public Conta(int numero, int saldo){
+	public Conta(int numero, double saldo){
 		this.numero = numero;
 		this.saldo = saldo;
 		this.ativa = true;

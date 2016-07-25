@@ -5,7 +5,7 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 
 	double limite;
 
-	public ContaCorrente(int numero, int saldo, double limite) {
+	public ContaCorrente(int numero, double saldo, double limite) {
 		super(numero, saldo);
 		this.limite = limite;	
 		}
