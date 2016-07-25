@@ -1,19 +1,37 @@
 package Clientes;
 
-public abstract class Cliente implements InterfaceCliente {
+public class Cliente implements InterfaceCliente {
 
 	String nome, telefone, email;
 	
-	public abstract String getNome();
+	public Cliente(String nome, String telefone, String email){
+		this.nome = nome;
+		this.telefone = telefone;
+		this.email = email;
+	}
+	
+	public String getNome() {
+		return this.nome;
+	}
 
-	public abstract void setNome(String nome);
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-	public abstract String getTelefone();
+	public String getTelefone() {
+		return this.telefone;
+	}
 
-	public abstract void setTelefone(String telefone);
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
-	public abstract String getEmail();
+	public String getEmail() {
+		return this.email;
+	}
 
-	public abstract void setEmail(String email);
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 }
