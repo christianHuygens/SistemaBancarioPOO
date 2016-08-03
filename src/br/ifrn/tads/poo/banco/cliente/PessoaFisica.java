@@ -1,4 +1,4 @@
-package Clientes;
+package br.ifrn.tads.poo.banco.cliente;
 
 public class PessoaFisica extends Cliente implements InterfacePessoaFisica {
 

@@ -1,4 +1,4 @@
-package Clientes;
+package br.ifrn.tads.poo.banco.cliente;
 
 public interface InterfaceCliente {
 	String getNome();

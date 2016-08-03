@@ -1,5 +1,5 @@
-package Agencia;
-import Clientes.Cliente; // Está correto?
+package br.ifrn.tads.poo.banco.agencia;
+import br.ifrn.tads.poo.banco.cliente.Cliente;
 
 
 

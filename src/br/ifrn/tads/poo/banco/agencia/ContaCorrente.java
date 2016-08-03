@@ -1,12 +1,12 @@
-package Agencia;
-import Clientes.Cliente; // Está correto?
+package br.ifrn.tads.poo.banco.agencia;
+import br.ifrn.tads.poo.banco.cliente.Cliente;
 
 public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 
 	double limite;
 
-	public ContaCorrente(int numero, double saldo, double limite) {
-		super(numero, saldo);
+	public ContaCorrente(int numero, double saldo, Cliente titular, double limite) {
+		super(numero, saldo, titular);
 		this.limite = limite;	
 		}
 

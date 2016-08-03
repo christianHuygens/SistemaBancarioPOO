@@ -1,15 +1,17 @@
-package Agencia;
-import Clientes.Cliente; // Está correto?
+package br.ifrn.tads.poo.banco.agencia;
+import br.ifrn.tads.poo.banco.cliente.Cliente;
 
 public abstract class Conta implements InterfaceConta {
 
 	final int numero;
 	boolean ativa;
 	double saldo;
+	Cliente titular; // Add relatório
 	
-	public Conta(int numero, double saldo){
+	public Conta(int numero, double saldo, Cliente titular){
 		this.numero = numero;
 		this.saldo = saldo;
+		this.titular = titular;
 		this.ativa = true;
 	}
 	

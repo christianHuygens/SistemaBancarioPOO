@@ -1,7 +1,7 @@
-package Agencia;
+package br.ifrn.tads.poo.banco.agencia;
 import java.util.Date;
 
-import Clientes.Cliente; // Está correto?
+import br.ifrn.tads.poo.banco.cliente.Cliente;
 
 public interface InterfaceContaPoupanca extends InterfaceConta {
 	Date getAniversario();

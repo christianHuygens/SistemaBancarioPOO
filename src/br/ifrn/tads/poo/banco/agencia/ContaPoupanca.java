@@ -1,11 +1,13 @@
-package Agencia;
-import Clientes.Cliente; // Está correto?
+package br.ifrn.tads.poo.banco.agencia;
 import java.util.Date;
+
+import br.ifrn.tads.poo.banco.cliente.Cliente;
 
 public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 
-	public ContaPoupanca(int numero, double saldo) {
-		super(numero, saldo);
+	
+	public ContaPoupanca(int numero, double saldo, Cliente titular) {
+		super(numero, saldo, titular);
 	}
 
 	public boolean sacar(double valor){

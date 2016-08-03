@@ -1,8 +1,12 @@
-package Clientes;
+package br.ifrn.tads.poo.banco.cliente;
+import java.util.ArrayList;
+import br.ifrn.tads.poo.banco.agencia.Conta;
 
 public class Cliente implements InterfaceCliente {
 
 	String nome, telefone, email;
+	int numContaCorrente, numContaPoupança; // Add relatório
+	ArrayList <Conta> contas = new ArrayList <Conta>(2); // cada cliente só terá duas contas. Uma paupança e outra corrente
 	
 	public Cliente(String nome, String telefone, String email){
 		this.nome = nome;
