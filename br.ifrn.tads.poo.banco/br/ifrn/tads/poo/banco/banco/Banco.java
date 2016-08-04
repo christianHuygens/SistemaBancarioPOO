@@ -1,4 +1,4 @@
-package br.ifrn.tads.poo.banco;
+package br.ifrn.tads.poo.banco.banco;
 import br.ifrn.tads.poo.banco.agencia.Agencia;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class Banco {
 	String nome;
-	int numero, numAgencia = 0001, numAdm = 001;
+	int numero, numAgencia = 0001, numAdm = 001, numDeCadastroCliente = 1; // Cada cliente tem um numero único
 	ArrayList <Agencia> agencias = new ArrayList <Agencia>();
 	ArrayList <Administrador> administradores = new ArrayList <Administrador>();
 	
@@ -56,12 +56,35 @@ public class Banco {
 	
 	public Agencia buscarAgencia(int numeroAgencia){
 		Agencia achado = null;
-		for (Agencia agc: agencias)  {  
-			if (agc.getNumeroAgencia()==numeroAgencia){ 
-				achado = agc;
+		if(!agencias.isEmpty()){
+			for (Agencia agc: agencias)  {  
+				if (agc.getNumeroAgencia()==numeroAgencia){ 
+					achado = agc;
+				}
 			}
+		}else{
+			System.out.println("Não há agencias cadastradas.");
 		}
 		return achado;
+	}
+	
+	public boolean removerAgencia(int numAgencia){
+		boolean estatus = false;
+		Agencia remover = this.buscarAgencia(numAgencia);
+		if(remover!=null){
+			estatus = agencias.remove(remover);
+		}
+		return estatus;
+	}
+	
+	public void imprimirListaAgencias(){
+		if(!agencias.isEmpty()){
+			for (Agencia agc: agencias)  {  
+				System.out.println(agc.getNomeAgencia()+": "+agc.getNumeroAgencia());
+			}
+		}else{
+			System.out.println("Não há agencias cadastradas.");
+		}
 	}
 
 	public String getNome() {
@@ -83,5 +106,12 @@ public class Banco {
 	public int getNumAgencia() {
 		return numAgencia;
 	}
+
+	public int getNumDeCadastroCliente() {
+		return this.numDeCadastroCliente;
+	}
 	
+	public int addNumDeCadastroCliente() {
+		return this.numDeCadastroCliente++;
+	}
 }

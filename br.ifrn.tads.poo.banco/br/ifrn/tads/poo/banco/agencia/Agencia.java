@@ -1,15 +1,15 @@
 package br.ifrn.tads.poo.banco.agencia;
+import br.ifrn.tads.poo.banco.banco.Administrador;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
 import java.util.ArrayList;
 
 public class Agencia implements InterfaceAgencia {
 
-	int numeroAgencia;
+	final int numeroAgencia;
 	String nomeAgencia;
-	int numConta = 00000001;
+	int numConta = 1;
 	double limiteInicial = 100; // Limite inicial de qqr conta será R$100
 	double saldoInicial = 0;// Saldo inicial de qqr conta será R$0
-	ArrayList <Conta> contas = new ArrayList <Conta>();
 	ArrayList <Cliente> clientes = new ArrayList <Cliente>();
 	
 	public Agencia(int numeroAgencia, String nomeAgencia){
@@ -20,10 +20,10 @@ public class Agencia implements InterfaceAgencia {
 	public boolean criarConta(int numConta, Cliente titular, String tipoConta) {
 		if(tipoConta == "poupanca"){
 			Conta nova = new ContaPoupanca(numConta, this.saldoInicial, titular);
-			contas.add(nova);
+			titular.adicionarConta(nova);
 		}else{
 			Conta nova = new ContaCorrente(numConta, saldoInicial, titular, limiteInicial);
-			contas.add(nova);
+			titular.adicionarConta(nova);
 		}
 		this.numConta++;
 		return true;
@@ -39,19 +39,35 @@ public class Agencia implements InterfaceAgencia {
 		return null;
 	}
 
-	@Override
-	public Cliente buscarCliente(String nome) {
-		// TODO Auto-generated method stub
-		return null;
+	public Cliente buscarCliente(int cadastro) {
+		Cliente achado = null;
+		for (Cliente clt: clientes){ // como parar se acabar a lista de administradores?  
+			if (clt.getCadastro()==cadastro){ 
+				achado = clt;
+			}
+		}
+		return achado;
 	}
 
+	public boolean removerCliente(int numDeCadastro){
+		boolean estatus = false;
+		Cliente remover = this.buscarCliente(numDeCadastro);
+		if(remover!=null){
+			estatus = clientes.remove(remover);
+		}
+		return estatus;
+	}
+	
+	public void imprimirListaClientes() {
+		for (Cliente clt: clientes){ // como parar se acabar a lista de administradores?  
+			System.out.println("Nome: "+clt.getNome()+" - "+clt.getCadastro());
+		}
+	}
+	
 	public int getNumeroAgencia() {
 		return numeroAgencia;
 	}
 
-	public void setNumeroAgencia(int numeroAgencia) {
-		this.numeroAgencia = numeroAgencia;
-	}
 
 	public String getNomeAgencia() {
 		return nomeAgencia;
@@ -64,7 +80,5 @@ public class Agencia implements InterfaceAgencia {
 	public int getNumConta() {
 		return numConta;
 	}
-
-	
 
 }

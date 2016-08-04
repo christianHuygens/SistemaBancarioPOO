@@ -1,5 +1,6 @@
-import br.ifrn.tads.poo.banco.Banco;
+package br.ifrn.tads.poo.banco.main;
 import br.ifrn.tads.poo.banco.app.APP;
+import br.ifrn.tads.poo.banco.banco.Banco;
 
 public class Main {
 

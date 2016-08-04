@@ -1,4 +1,4 @@
-package br.ifrn.tads.poo.banco;
+package br.ifrn.tads.poo.banco.banco;
 
 public class Administrador {
 	String nome;

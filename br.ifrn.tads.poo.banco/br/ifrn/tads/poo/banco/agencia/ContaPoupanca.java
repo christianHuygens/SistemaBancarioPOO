@@ -32,9 +32,9 @@ public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 	}
 
 	@Override
-	public void calcularRendimento() {
-		// TODO Auto-generated method stub
-		
+	public double calcularRendimento() {
+		double rendimento = (this.saldo * 0.7)/100;
+		return rendimento;
 	}
 
 	@Override
@@ -44,9 +44,9 @@ public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 	}
 
 	@Override
-	public String verSituacaoConta() {
-		// TODO Auto-generated method stub
-		return null;
+	public void verSituacaoConta() {
+	System.out.println("Conta Poupança número:" + this.numero
+			+ "\nSaldo: "+ this.saldo);	
 	}
 
 }

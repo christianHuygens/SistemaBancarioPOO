@@ -1,5 +1,6 @@
 package br.ifrn.tads.poo.banco.agencia;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
+import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public abstract class Conta implements InterfaceConta {
 
@@ -15,7 +16,7 @@ public abstract class Conta implements InterfaceConta {
 		this.ativa = true;
 	}
 	
-	public abstract boolean sacar(double valor);
+	public abstract boolean sacar(double valor) throws SaldoInsuficienteException;
 
 	//adiciona valor ao saldo
 	public void depositar(double valor){
@@ -32,7 +33,11 @@ public abstract class Conta implements InterfaceConta {
 	public void cancelarConta(){
 		if(this.isAtiva()){
 			if(this.saldo>0){
-				this.sacar(this.saldo);
+				try {
+					this.sacar(this.saldo);
+				} catch (SaldoInsuficienteException e) {
+					System.out.println(e.getMessage());
+				}
 			}else{
 				//tratar erro: realizar deposito
 			}
@@ -41,12 +46,12 @@ public abstract class Conta implements InterfaceConta {
 			// tratar erro: imprimir que conta já está encerrada
 		}
 	}
-
+	
 	public abstract boolean transferirValor(int numConta, int NumAgencia, double valor);
 
-	public abstract String verSituacaoConta();
+	public abstract void verSituacaoConta();
 
-	public Cliente VerInformaçõesCliente(){
+	public Cliente verInformaçõesCliente(){
 		//implementar aqui
 		return null;
 	}

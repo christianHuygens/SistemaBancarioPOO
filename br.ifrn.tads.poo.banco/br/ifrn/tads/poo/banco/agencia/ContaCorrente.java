@@ -1,5 +1,6 @@
 package br.ifrn.tads.poo.banco.agencia;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
+import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 
@@ -10,11 +11,11 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 		this.limite = limite;	
 		}
 
-	public boolean sacar(double valor){
-		if (this.saldo+this.limite>valor && this.isAtiva())
-			this.saldo = this.saldo - valor;
+	public boolean sacar(double valor) throws SaldoInsuficienteException{
+		if (this.saldo+this.limite<valor && !this.isAtiva())
+			throw new SaldoInsuficienteException();
 		else{
-			return false;
+			this.saldo = this.saldo - valor;
 		}
 		return true;
 	}
@@ -32,8 +33,10 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 		}
 	}
 
-	public String verSituacaoConta() {
-		return null;
+	public void verSituacaoConta() {
+		System.out.println("Conta Poupança número:" + this.numero
+				+ "\nSaldo: "+ this.saldo
+				+ "\nLimite: "+this.limite);	
 	}
 
 	// Retorna o limite atual da conta
