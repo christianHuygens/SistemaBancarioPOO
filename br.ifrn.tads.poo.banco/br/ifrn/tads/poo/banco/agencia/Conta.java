@@ -7,6 +7,7 @@ public abstract class Conta implements InterfaceConta {
 	final int numero;
 	boolean ativa;
 	double saldo;
+	String historicoTran = "Extrato Bancário:\n";
 	Cliente titular; // Add relatório
 	
 	public Conta(int numero, double saldo, Cliente titular){
@@ -25,7 +26,7 @@ public abstract class Conta implements InterfaceConta {
 	}
 
 	// retorna saldo
-	public double verSaldo(double valor){
+	public double verSaldo(){
 		return this.saldo;
 	}
 
@@ -71,4 +72,18 @@ public abstract class Conta implements InterfaceConta {
 		this.ativa = ativa;
 	}	
 
+	public String getNomeTitular(){
+	return this.titular.getNome();
+	}
+	
+	public void imprimirHistorico(){
+		System.out.println(this.historicoTran);
+		System.out.println("---------------------------------"
+				+ "\nSaldo atual: R$"+this.verSaldo());
+	}
+	
+	public void escreverHistotico(String nova){
+		this.historicoTran += nova;
+	}
+	
 }

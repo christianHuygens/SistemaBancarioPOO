@@ -7,6 +7,7 @@ import br.ifrn.tads.poo.banco.agencia.ContaPoupanca;
 public class Cliente implements InterfaceCliente {
 
 	String nome, telefone, email;
+	int senha = 123456;
 	int cadastro;
 	boolean poupanca = false, corrente = false; // para não ser possivel criar mais de uma conta de cada tipo
 	int numContaCorrente, numContaPoupança; // Add relatório
@@ -118,9 +119,16 @@ public class Cliente implements InterfaceCliente {
 		this.corrente = corrente;
 	}
 
-
 	public int getCadastro() {
 		return cadastro;
+	}
+
+	public int getSenha() {
+		return this.senha;
+	}
+
+	public void setSenha(int senha) {
+		this.senha = senha;
 	}
 
 	

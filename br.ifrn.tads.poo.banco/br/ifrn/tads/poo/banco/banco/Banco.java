@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class Banco {
 	String nome;
-	int numero, numAgencia = 0001, numAdm = 001, numDeCadastroCliente = 1; // Cada cliente tem um numero único
+	int numero, numAgencia = 0001, numAdm = 001, codDeAcessoCliente = 1; // Cada cliente tem um numero único
 	ArrayList <Agencia> agencias = new ArrayList <Agencia>();
 	ArrayList <Administrador> administradores = new ArrayList <Administrador>();
 	
@@ -108,10 +108,10 @@ public class Banco {
 	}
 
 	public int getNumDeCadastroCliente() {
-		return this.numDeCadastroCliente;
+		return this.codDeAcessoCliente;
 	}
 	
 	public int addNumDeCadastroCliente() {
-		return this.numDeCadastroCliente++;
+		return this.codDeAcessoCliente++;
 	}
 }

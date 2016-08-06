@@ -33,11 +33,11 @@ public class Agencia implements InterfaceAgencia {
 		this.clientes.add(novoCliente);
 	}
 	
-	@Override
-	public Conta buscarConta(int numero) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Conta buscarConta(int numero) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	public Cliente buscarCliente(int cadastro) {
 		Cliente achado = null;

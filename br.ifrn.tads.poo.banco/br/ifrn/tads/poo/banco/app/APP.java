@@ -9,18 +9,19 @@ import br.ifrn.tads.poo.banco.banco.Banco;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
 import br.ifrn.tads.poo.banco.cliente.PessoaFisica;
 import br.ifrn.tads.poo.banco.cliente.PessoaJuridica;
+import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public class APP {
 	Scanner ler = new Scanner(System.in);
 	Banco b = new Banco(01, "BancoPOO");
-	public void iniciar() {
+	public void iniciar() throws SaldoInsuficienteException {
 		System.out.println("Bem vindo ao Banco "+this.b.getNome()+".");
 		this.identicacao();
 	}
 
 	//////////INTERFACE ADMINISTRADOR//////////
 	
-	private void identicacao() {
+	private void identicacao() throws SaldoInsuficienteException {
 		while(true){
 			System.out.println("Por favor, identifique-se."
 					+ "\nDigite o seu numero de cadastro:");
@@ -35,9 +36,9 @@ public class APP {
 		}
 	}
 
-	private void iniciarAppAdmin() {
-		boolean adminAcessando = true;
-		while(adminAcessando){
+	private void iniciarAppAdmin() throws SaldoInsuficienteException {
+		boolean interfaceAdministrador = true;
+		while(interfaceAdministrador){
 			System.out.println("////////ÁREA DE ADMINISTRADOR////////"
 					+ "\nO que deseja fazer?"
 					+ "\n1 - Adicionar Agencia;"
@@ -84,7 +85,7 @@ public class APP {
 				this.interfaceCliente();
 				break;
 			case 6:
-				adminAcessando = false;
+				interfaceAdministrador = false;
 				break;
 			default:
 				System.out.println("Opção inválida. Tente novamente.");
@@ -416,9 +417,333 @@ public class APP {
 	
 	///////////INTERFACE CLIENTE/////////
 	
-	private void interfaceCliente() {
-		// TODO Auto-generated method stub
-		
+	private void interfaceCliente() throws SaldoInsuficienteException {
+		boolean autenticado = false, interfaceCliente = true;
+		while(interfaceCliente){
+			System.out.println("////////////////////////////////"
+					+ "\nBem vindo ao banco "+b.getNome()+".\nPor favor, insira a sua Agencia e o seu código de acesso:");
+			System.out.print("Agencia: ");
+			int agenciaCliente = ler.nextInt();
+			Agencia agenciaEmAcesso = b.buscarAgencia(agenciaCliente);
+			if(agenciaEmAcesso != null && agenciaCliente != 0){
+				System.out.print("Código:");
+				int codAcesso = ler.nextInt();
+				Cliente clienteEmAcesso = agenciaEmAcesso.buscarCliente(codAcesso);
+				if(clienteEmAcesso != null){
+					boolean acessoCliente = true;
+					while(acessoCliente){
+						System.out.println("Olá "+clienteEmAcesso.getNome()+"! O banco "+b.getNome()+" está feliz em te atender."
+								+ "\nDigite o número da operação que deseja realizar?"
+								+ "\n1 - Saque;"
+								+ "\n2 - Deposito;"
+								+ "\n3 - Saldos e Extratos;"
+								+ "\n4 - Transferência"
+								+ "\n5 - Finalizar consulta;");
+						int acaoEscolhida = ler.nextInt();
+						switch(acaoEscolhida){
+						case 1:
+							this.realizarSaque(agenciaEmAcesso, clienteEmAcesso);
+							break;
+						case 2:
+							this.realizarDeposito(agenciaEmAcesso, clienteEmAcesso);
+							break;
+						case 3:
+							this.verificarSaldoExtrato(agenciaEmAcesso, clienteEmAcesso);
+							break;
+						case 4:
+							this.realizarTransferencia(agenciaEmAcesso, clienteEmAcesso);
+							break;
+						case 5:
+							acessoCliente = false;
+							break;
+						default:
+							System.out.println("Entrada inválida. Tente novamente.");
+							break;
+						}
+					}
+				}else{
+					System.out.println("Cliente não encontrado. Tente novamente");
+				}
+			}else if (agenciaEmAcesso == null && agenciaCliente != 0){
+				System.out.println("Agencia não encontrada. Tente novamente.");
+			}else if(agenciaEmAcesso == null && agenciaCliente == 0){
+				interfaceCliente = false;
+			}
+
+		}
 	}
 
+	private void realizarSaque(Agencia agenciaEmAcesso, Cliente clienteEmAcesso) throws SaldoInsuficienteException{
+		System.out.println("////////OPERAÇÃO DE SAQUE////////"
+				+ "\nEscolha de onde deseja SACAR:"
+				+ "\n1 - Conta Poupança;"
+				+ "\n2 - Conta Corrente;"
+				+ "\n3 - Desistir de saque (voltar para menu anterior);");
+		int acaoEscolhida = ler.nextInt();
+		switch(acaoEscolhida){
+		case 1:
+			System.out.print("Digite valor que deseja SACAR:");
+			double sacarCP = ler.nextDouble();
+			Conta cp = clienteEmAcesso.buscarContaPoupanca();
+			if(cp != null){
+				if(this.autenticarCliente(clienteEmAcesso)){
+					cp.sacar(sacarCP);
+					cp.escreverHistotico("D - Saque realizado - R$"+sacarCP);
+				}else{
+					System.out.println("Senha inválida.");
+				}
+			}else{
+				System.out.println("Você não possui Conta Poupança. Tente sacar de sua Conta Corrente.");
+			}
+			break;
+		case 2:
+			System.out.print("Digite valor que deseja SACAR:");
+			double sacarCC = ler.nextDouble();
+			Conta cc = clienteEmAcesso.buscarContaPoupanca();
+			if(cc != null){
+				if(this.autenticarCliente(clienteEmAcesso)){
+					cc.sacar(sacarCC);
+					cc.escreverHistotico("D - Saque realizado - R$"+sacarCC);
+				}else{
+					System.out.println("Senha inválida.");
+				}
+			}else{
+				System.out.println("Você não possui Conta Corrente. Tente sacar de sua Conta Poupança.");
+			}
+			break;
+		case 3:
+			break;
+		default:
+		System.out.println("Entrada inválida. Tente novamente.");
+		}
+	}
+
+	private void realizarDeposito(Agencia agenciaEmAcesso, Cliente clienteEmAcesso) {
+		System.out.println("////////OPERAÇÃO DE DEPOSITO////////"
+				+ "\nEscolha de onde deseja DEPOSITAR:"
+				+ "\n1 - Em sua Conta Poupança;"
+				+ "\n2 - Em sua Conta Corrente;"
+				+ "\n3 - Em conta de outro cliente;"
+				+ "\n4 - Desistir de saque (voltar para menu anterior);");
+		int acaoEscolhida = ler.nextInt();
+		switch(acaoEscolhida){
+		case 1:
+			System.out.print("Digite valor que deseja DEPOSITAR:");
+			double depositarCP = ler.nextDouble();
+			Conta cp = clienteEmAcesso.buscarContaPoupanca();
+			if(cp != null){
+				cp.depositar(depositarCP);
+				System.out.println("Deposito realizado - R$"+depositarCP+".\nSeu saldo atual é de: R$" + cp.verSaldo());
+				cp.escreverHistotico("C - Deposito realizado - R$"+depositarCP);
+			}else{
+				System.out.println("Você não possui Conta Poupança. Tente depositar na sua Conta Corrente.");
+			}
+			break;
+		case 2:
+			System.out.print("Digite valor que deseja DEPOSITAR:");
+			double depositarCC = ler.nextDouble();
+			Conta cc = clienteEmAcesso.buscarContaCorrente();
+			if(cc != null){
+				cc.depositar(depositarCC);
+				System.out.println("Deposito realizado - R$"+depositarCC+".\nSeu saldo atual é de: R$" + cc.verSaldo());
+				cc.escreverHistotico("C - Deposito realizado - R$"+depositarCC);
+			}else{
+				System.out.println("Você não possui Conta Corrente. Tente depositar na sua Conta Poupança.");
+			}
+			break;
+		case 3:
+			System.out.println("Digite as informações abaixo sobre a conta que RECEBERÁ o depósito:");
+			System.out.print("Código de Agencia: ");
+			int agenciaRecebe = ler.nextInt();
+			System.out.print("Código do Cliente: ");
+			int clienteRecebe = ler.nextInt();
+			System.out.print("Número de conta: ");
+			int contaRecebe = ler.nextInt();
+			System.out.print("Digite valor que deseja DEPOSITAR:");
+			double depositarCT = ler.nextDouble();
+			Agencia agenciaQueRecebe = b.buscarAgencia(agenciaRecebe);
+			Cliente clienteQueRecebe = agenciaQueRecebe.buscarCliente(clienteRecebe);
+			Conta contaQueRecebe = clienteQueRecebe.buscarConta(contaRecebe);
+			System.out.println("Você confirma o deposito de R$" + depositarCT + " para a conta de " + contaQueRecebe.getNomeTitular() + "?");
+			System.out.print("Digite: "
+					+ "\n1 - Sim;"
+					+ "\n2 - Não: ");
+			int confirmacao = ler.nextInt();
+			if(confirmacao == 1){
+				contaQueRecebe.depositar(depositarCT);
+				contaQueRecebe.escreverHistotico("C - Deposito realizado - R$"+depositarCT);
+				System.out.println("Deposito realizado com sucesso!");
+			}else if(confirmacao == 2){
+				System.out.println("Operação cancelada.");
+			}else{
+				System.out.println("Entrada Inválida. Tente novamente.");
+			}
+			break;
+		case 4:
+			break;
+		default:
+			System.out.println("Entrada inválida. Tente novamente.");
+			break;
+		}
+	}
+	
+	private void realizarTransferencia(Agencia agenciaEmAcesso, Cliente clienteEmAcesso) throws SaldoInsuficienteException {
+		Conta contaRetirar = null;
+		System.out.println("////////OPERAÇÃO DE TRANSFERÊNCIA////////"
+				+ "\nEscolha de onde deseja TRANSFERIR:"
+				+ "\n1 - De sua Conta Poupança;"
+				+ "\n2 - De sua Conta Corrente;"
+				+ "\n3 - Desistir de saque (voltar para menu anterior");
+		int acaoEscolhida = ler.nextInt();
+		switch(acaoEscolhida){
+		case 1:
+			contaRetirar = clienteEmAcesso.buscarContaPoupanca();
+			break;
+		case 2:
+			contaRetirar = clienteEmAcesso.buscarContaPoupanca();
+			break;
+		case 3:
+			break;
+		default:
+			System.out.println("Entrada inválida. Tente novamente.");
+			break;
+		}
+		System.out.println("Escolha para onde deseja TRANSFERIR:"
+				+ "\n1 - Em sua Conta Poupança;"
+				+ "\n2 - Em sua Conta Corrente;"
+				+ "\n3 - Em conta de outro cliente;"
+				+ "\n4 - Desistir de transferência (voltar para menu anterior);");
+		acaoEscolhida = ler.nextInt();
+		switch(acaoEscolhida){
+		case 1:
+			System.out.print("Digite valor que deseja TRANSFERIR:");
+			double depositarCP = ler.nextDouble();
+			if(this.autenticarCliente(clienteEmAcesso)){
+				Conta cp = clienteEmAcesso.buscarContaPoupanca();
+				if(cp != null){
+					contaRetirar.sacar(depositarCP);
+					cp.depositar(depositarCP);
+					System.out.println("Transferência realizada - R$"+depositarCP+".\nSeu saldo atual é de: R$" + cp.verSaldo());
+					contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCP);
+					cp.escreverHistotico("C - Transferência realizada - R$"+depositarCP);
+				}else{
+					System.out.println("Você não possui Conta Poupança. Tente depositar na sua Conta Corrente.");
+				}
+			}else{
+				System.out.println("Senha incorreta.");
+			}
+			break;
+		case 2:
+			System.out.print("Digite valor que deseja DEPOSITAR:");
+			double depositarCC = ler.nextDouble();
+			if(this.autenticarCliente(clienteEmAcesso)){
+				Conta cc = clienteEmAcesso.buscarContaCorrente();
+				if(cc != null){
+					contaRetirar.sacar(depositarCC);
+					cc.depositar(depositarCC);
+					System.out.println("Transferência realizada - R$"+depositarCC+".\nSeu saldo atual é de: R$" + cc.verSaldo());
+					contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCC);
+					cc.escreverHistotico("C - Transferência realizada - R$"+depositarCC);
+				}else{
+					System.out.println("Você não possui Conta Corrente. Tente depositar na sua Conta Poupança.");
+				}
+			}else{
+				System.out.println("Senha incorreta.");
+			}
+			break;
+		case 3:
+			System.out.println("Digite as informações abaixo sobre a conta que RECEBERÁ o depósito:");
+			System.out.print("Código de Agencia: ");
+			int agenciaRecebe = ler.nextInt();
+			System.out.print("Código do Cliente: ");
+			int clienteRecebe = ler.nextInt();
+			System.out.print("Número de conta: ");
+			int contaRecebe = ler.nextInt();
+			System.out.print("Digite valor que deseja DEPOSITAR:");
+			double depositarCT = ler.nextDouble();
+			if(this.autenticarCliente(clienteEmAcesso)){
+				Agencia agenciaQueRecebe = b.buscarAgencia(agenciaRecebe);
+				Cliente clienteQueRecebe = agenciaQueRecebe.buscarCliente(clienteRecebe);
+				Conta contaQueRecebe = clienteQueRecebe.buscarConta(contaRecebe);
+				System.out.println("Você confirma o deposito de R$" + depositarCT + " para a conta de " + contaQueRecebe.getNomeTitular() + "?");
+				System.out.print("Digite: "
+						+ "\n1 - Sim;"
+						+ "\n2 - Não: ");
+				int confirmacao = ler.nextInt();
+				if(confirmacao == 1){ // não fioncioando
+					contaRetirar.sacar(depositarCT);
+					contaQueRecebe.depositar(depositarCT);
+					System.out.println("Transferência realizada - R$"+depositarCT+".\nSeu saldo atual é de: R$" + contaQueRecebe.verSaldo());
+					contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCT);
+					contaQueRecebe.escreverHistotico("C - Transferência realizada - R$"+depositarCT);
+				}else if(confirmacao == 2){
+					System.out.println("Operação Cancelada.");
+				}else{
+					System.out.println("Entrada Inválida. Tente novamente.");
+				}
+			}
+			break;
+		case 4:
+			break;
+		default:
+			System.out.println("Entrada inválida. Tente novamente.");
+			break;
+		}
+	}
+	
+	private void verificarSaldoExtrato(Agencia agenciaEmAcesso, Cliente clienteEmAcesso) {
+		Conta contaAcessada = null;
+		System.out.println("////////OPERAÇÃO DE CONSULTA////////"
+				+ "\nEscolha que conta deseja ACESSAR:"
+				+ "\n1 - Conta Poupança;"
+				+ "\n2 - Conta Corrente;"
+				+ "\n3 - Cancelar Ação;");
+		int acaoEscolhida = ler.nextInt();
+		switch(acaoEscolhida){
+		case 1:
+			contaAcessada = clienteEmAcesso.buscarContaPoupanca();
+			break;
+		case 2:
+			contaAcessada = clienteEmAcesso.buscarContaCorrente();
+			break;
+		case 3:
+			break;
+		default:			
+			System.out.println("Entrada inválida. Tente novamente.");
+			break;
+		}
+		if(contaAcessada !=null){
+			System.out.println("Digite que operação deseja acessar:"
+					+ "\n1 - Ver saldo;"
+					+ "\n2 - Ver Extrato;"
+					+ "\n3 - Cancelar Ação;");
+			acaoEscolhida = ler.nextInt();
+			switch(acaoEscolhida){
+			case 1:
+				if(this.autenticarCliente(clienteEmAcesso)){
+					System.out.println("Seu saldo atual é de R$"+ contaAcessada.verSaldo());
+				}
+				break;
+			case 2:
+				if(this.autenticarCliente(clienteEmAcesso)){
+					contaAcessada.imprimirHistorico();
+				}
+				break;
+			case 3:
+				break;
+			default:
+				System.out.println("Entrada inválida. Tente novamente.");
+			}
+		}
+	}
+	
+	public boolean autenticarCliente(Cliente clienteAchado){
+		boolean autenticado = false;
+		System.out.print("Digite a sua senha: ");
+		int senha = ler.nextInt();
+		if(senha == clienteAchado.getSenha()){
+			autenticado = true;
+		}
+		return autenticado;
+	}
 }

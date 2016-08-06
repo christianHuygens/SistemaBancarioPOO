@@ -5,7 +5,7 @@ import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 
 	double limite;
-
+	
 	public ContaCorrente(int numero, double saldo, Cliente titular, double limite) {
 		super(numero, saldo, titular);
 		this.limite = limite;	
@@ -48,4 +48,11 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 		this.limite = limite;
 	}
 
+	public void imprimirHistorico(){ //sobre escrita de método
+		double saldoDisponivel = this.verSaldo() + this.getLimite();
+		System.out.println(this.historicoTran);
+		System.out.println("---------------------------------"
+				+ "\nSaldo atual: R$"+this.verSaldo()
+				+"\nSaldo disponível: R$"+saldoDisponivel+"\n");
+	}
 }
