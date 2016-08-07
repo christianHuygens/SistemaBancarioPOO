@@ -10,28 +10,33 @@ import br.ifrn.tads.poo.banco.cliente.Cliente;
 import br.ifrn.tads.poo.banco.cliente.PessoaFisica;
 import br.ifrn.tads.poo.banco.cliente.PessoaJuridica;
 import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
+import br.ifrn.tads.poo.banco.exceptions.UsuarioNaoEncontradoException;
 
 public class APP {
 	Scanner ler = new Scanner(System.in);
 	Banco b = new Banco(01, "BancoPOO");
-	public void iniciar() throws SaldoInsuficienteException {
+	public void iniciar() throws SaldoInsuficienteException, UsuarioNaoEncontradoException {
 		System.out.println("Bem vindo ao Banco "+this.b.getNome()+".");
 		this.identicacao();
 	}
 
 	//////////INTERFACE ADMINISTRADOR//////////
 	
-	private void identicacao() throws SaldoInsuficienteException {
+	private void identicacao() throws SaldoInsuficienteException, UsuarioNaoEncontradoException {
 		while(true){
 			System.out.println("Por favor, identifique-se."
 					+ "\nDigite o seu numero de cadastro:");
 			int numeroAut = ler.nextInt();
 			System.out.println("Digite o sua senha:");
 			int senhaAut = ler.nextInt();
-			if(this.b.autenticarAdm(numeroAut, senhaAut)){
-				this.iniciarAppAdmin();
-			}else{
-				System.out.println("Administrador não encontrado ou senha errada. Tente novamente.");
+			try{
+				if(this.b.autenticarAdm(numeroAut, senhaAut)){
+					this.iniciarAppAdmin();
+				}else{
+					System.out.println("Senha incorreta.");
+				}
+			}catch (UsuarioNaoEncontradoException e){
+				System.out.println(e.getMessage());
 			}
 		}
 	}
@@ -482,13 +487,18 @@ public class APP {
 		int acaoEscolhida = ler.nextInt();
 		switch(acaoEscolhida){
 		case 1:
-			System.out.print("Digite valor que deseja SACAR:");
-			double sacarCP = ler.nextDouble();
 			Conta cp = clienteEmAcesso.buscarContaPoupanca();
 			if(cp != null){
+				System.out.print("Digite valor que deseja SACAR:");
+				double sacarCP = ler.nextDouble();
 				if(this.autenticarCliente(clienteEmAcesso)){
+					try{
 					cp.sacar(sacarCP);
+					System.out.println("Saque de "+sacarCP+" realizado com sucesso!");
 					cp.escreverHistotico("D - Saque realizado - R$"+sacarCP);
+					}catch (SaldoInsuficienteException e){
+						System.out.println(e.getMessage());
+					}
 				}else{
 					System.out.println("Senha inválida.");
 				}
@@ -497,13 +507,18 @@ public class APP {
 			}
 			break;
 		case 2:
-			System.out.print("Digite valor que deseja SACAR:");
-			double sacarCC = ler.nextDouble();
-			Conta cc = clienteEmAcesso.buscarContaPoupanca();
+			Conta cc = clienteEmAcesso.buscarContaCorrente();
 			if(cc != null){
+				System.out.print("Digite valor que deseja SACAR:");
+				double sacarCC = ler.nextDouble();
 				if(this.autenticarCliente(clienteEmAcesso)){
+					try{
 					cc.sacar(sacarCC);
+					System.out.println("Saque de "+sacarCC+" realizado com sucesso!");
 					cc.escreverHistotico("D - Saque realizado - R$"+sacarCC);
+					}catch (SaldoInsuficienteException e){
+						System.out.println(e.getMessage());
+					}
 				}else{
 					System.out.println("Senha inválida.");
 				}
@@ -621,11 +636,15 @@ public class APP {
 			if(this.autenticarCliente(clienteEmAcesso)){
 				Conta cp = clienteEmAcesso.buscarContaPoupanca();
 				if(cp != null){
-					contaRetirar.sacar(depositarCP);
-					cp.depositar(depositarCP);
-					System.out.println("Transferência realizada - R$"+depositarCP+".\nSeu saldo atual é de: R$" + cp.verSaldo());
-					contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCP);
-					cp.escreverHistotico("C - Transferência realizada - R$"+depositarCP);
+					try{
+						contaRetirar.sacar(depositarCP);
+						cp.depositar(depositarCP);
+						System.out.println("Transferência realizada - R$"+depositarCP+".\nSeu saldo atual é de: R$" + cp.verSaldo());
+						contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCP);
+						cp.escreverHistotico("C - Transferência realizada - R$"+depositarCP);
+					}catch (SaldoInsuficienteException e){
+						System.out.println(e.getMessage());
+					}
 				}else{
 					System.out.println("Você não possui Conta Poupança. Tente depositar na sua Conta Corrente.");
 				}
@@ -639,11 +658,15 @@ public class APP {
 			if(this.autenticarCliente(clienteEmAcesso)){
 				Conta cc = clienteEmAcesso.buscarContaCorrente();
 				if(cc != null){
-					contaRetirar.sacar(depositarCC);
-					cc.depositar(depositarCC);
-					System.out.println("Transferência realizada - R$"+depositarCC+".\nSeu saldo atual é de: R$" + cc.verSaldo());
-					contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCC);
-					cc.escreverHistotico("C - Transferência realizada - R$"+depositarCC);
+					try{
+						contaRetirar.sacar(depositarCC);
+						cc.depositar(depositarCC);
+						System.out.println("Transferência realizada - R$"+depositarCC+".\nSeu saldo atual é de: R$" + cc.verSaldo());
+						contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCC);
+						cc.escreverHistotico("C - Transferência realizada - R$"+depositarCC);
+					}catch (SaldoInsuficienteException e){
+						System.out.println(e.getMessage());
+					}
 				}else{
 					System.out.println("Você não possui Conta Corrente. Tente depositar na sua Conta Poupança.");
 				}
@@ -671,11 +694,15 @@ public class APP {
 						+ "\n2 - Não: ");
 				int confirmacao = ler.nextInt();
 				if(confirmacao == 1){ // não fioncioando
-					contaRetirar.sacar(depositarCT);
-					contaQueRecebe.depositar(depositarCT);
-					System.out.println("Transferência realizada - R$"+depositarCT+".\nSeu saldo atual é de: R$" + contaQueRecebe.verSaldo());
-					contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCT);
-					contaQueRecebe.escreverHistotico("C - Transferência realizada - R$"+depositarCT);
+					try{
+						contaRetirar.sacar(depositarCT);
+						contaQueRecebe.depositar(depositarCT);
+						System.out.println("Transferência realizada - R$"+depositarCT+".\nSeu saldo atual é de: R$" + contaQueRecebe.verSaldo());
+						contaRetirar.escreverHistotico("D - ransferência realizada - R$"+depositarCT);
+						contaQueRecebe.escreverHistotico("C - Transferência realizada - R$"+depositarCT);
+					}catch (SaldoInsuficienteException e){
+						System.out.println(e.getMessage());
+					}
 				}else if(confirmacao == 2){
 					System.out.println("Operação Cancelada.");
 				}else{

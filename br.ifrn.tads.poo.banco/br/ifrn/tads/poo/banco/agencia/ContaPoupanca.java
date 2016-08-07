@@ -2,6 +2,7 @@ package br.ifrn.tads.poo.banco.agencia;
 import java.util.Date;
 
 import br.ifrn.tads.poo.banco.cliente.Cliente;
+import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 
@@ -10,11 +11,11 @@ public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 		super(numero, saldo, titular);
 	}
 
-	public boolean sacar(double valor){
-		if (this.saldo>valor && this.isAtiva()) // poupança não tem limite
-			this.saldo = this.saldo - valor;
+	public boolean sacar(double valor) throws SaldoInsuficienteException{
+		if (this.saldo<valor && this.isAtiva())
+			throw new SaldoInsuficienteException();
 		else{
-			return false;
+			this.saldo = this.saldo - valor;
 		}
 		return true;
 	}

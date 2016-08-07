@@ -12,7 +12,7 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 		}
 
 	public boolean sacar(double valor) throws SaldoInsuficienteException{
-		if (this.saldo+this.limite<valor && !this.isAtiva())
+		if (this.saldo+this.limite<valor && this.isAtiva())
 			throw new SaldoInsuficienteException();
 		else{
 			this.saldo = this.saldo - valor;
