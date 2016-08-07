@@ -10,7 +10,7 @@ public interface InterfaceConta {
 	double verSaldo();
 	void cancelarConta() throws SaldoInsuficienteException;
 	Cliente verInformaçõesCliente();
-	boolean transferirValor(int numConta, int NumAgencia, double valor);
+//	boolean transferirValor(int numConta, int NumAgencia, double valor);
 	void verSituacaoConta(); // explicar mucança para void
 
 }

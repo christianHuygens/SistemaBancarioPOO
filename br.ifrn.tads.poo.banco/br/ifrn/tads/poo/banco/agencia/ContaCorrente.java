@@ -21,11 +21,11 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 	}
 	
 	
-	@Override
-	public boolean transferirValor(int numConta, int NumAgencia, double valor) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	@Override
+//	public boolean transferirValor(int numConta, int NumAgencia, double valor) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
 
 	public void mudarLimieteConta(double limite){
 		if(this.isAtiva()){

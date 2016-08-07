@@ -306,6 +306,7 @@ public class APP {
 					int novaSenha2 = ler.nextInt();
 					if(novaSenha1 == novaSenha2){
 						clienteAchado.setSenha(novaSenha2);
+						System.out.println("Senha cadastrada com sucesso");
 					}
 				}
 				break;

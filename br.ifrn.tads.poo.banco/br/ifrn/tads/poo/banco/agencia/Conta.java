@@ -48,7 +48,7 @@ public abstract class Conta implements InterfaceConta {
 		}
 	}
 	
-	public abstract boolean transferirValor(int numConta, int NumAgencia, double valor);
+//	public abstract boolean transferirValor(int numConta, int NumAgencia, double valor);
 
 	public abstract void verSituacaoConta();
 

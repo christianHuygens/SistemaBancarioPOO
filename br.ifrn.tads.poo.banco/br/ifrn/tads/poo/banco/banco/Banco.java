@@ -9,7 +9,8 @@ import java.util.Iterator;
 
 public class Banco {
 	String nome;
-	int numero, numAgencia = 0001, numAdm = 001, codDeAcessoCliente = 1; // Cada cliente tem um numero único
+	final int numero; 
+	int numAgencia = 0001, numAdm = 1, codDeAcessoCliente = 1; // Cada cliente tem um numero único
 	ArrayList <Agencia> agencias = new ArrayList <Agencia>();
 	ArrayList <Administrador> administradores = new ArrayList <Administrador>();
 	
@@ -20,9 +21,6 @@ public class Banco {
 		Administrador primeiroAdm = new Administrador("Admin", this.numAdm, 1234);
 		this.administradores.add(primeiroAdm);
 		this.numAdm++;
-//		Administrador segundoAdm = new Administrador("Admin2", this.numAdm, 4321);
-//		this.administradores.add(segundoAdm);
-//		this.numAdm++;
 	}
 	
 	public void adicionarAdministrador(String nome, int numero, int senha){
@@ -47,9 +45,10 @@ public class Banco {
 		for (Administrador adm: administradores){ // como parar se acabar a lista de administradores?  
 			if (adm.getNumero()==numero){ 
 				achado = adm;
-			}else{
-				throw new UsuarioNaoEncontradoException();
 			}
+		}
+		if(achado == null){
+			throw new UsuarioNaoEncontradoException();
 		}
 		return achado;
 	}
@@ -104,10 +103,6 @@ public class Banco {
 
 	public int getNumero() {
 		return numero;
-	}
-
-	public void setNumero(int numero) {
-		this.numero = numero;
 	}
 
 	public int getNumAgencia() {
