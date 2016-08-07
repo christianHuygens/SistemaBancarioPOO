@@ -1,5 +1,7 @@
 package br.ifrn.tads.poo.banco.agencia;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
+import br.ifrn.tads.poo.banco.cliente.PessoaFisica;
+import br.ifrn.tads.poo.banco.cliente.PessoaJuridica;
 import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public abstract class Conta implements InterfaceConta {
@@ -17,7 +19,14 @@ public abstract class Conta implements InterfaceConta {
 		this.ativa = true;
 	}
 	
-	public abstract boolean sacar(double valor) throws SaldoInsuficienteException;
+	public boolean sacar(double valor) throws SaldoInsuficienteException{
+		if (this.saldo<valor)
+			throw new SaldoInsuficienteException();
+		else{
+			this.saldo = this.saldo - valor;
+		}
+		return true;
+	}
 
 	//adiciona valor ao saldo
 	public void depositar(double valor){
@@ -31,31 +40,20 @@ public abstract class Conta implements InterfaceConta {
 	}
 
 	//saca saldo disponível e muda boolean ativa para false
-	public void cancelarConta(){
+	public void cancelarConta() throws SaldoInsuficienteException{
 		if(this.isAtiva()){
 			if(this.saldo>0){
-				try {
-					this.sacar(this.saldo);
-				} catch (SaldoInsuficienteException e) {
-					System.out.println(e.getMessage());
-				}
+				this.sacar(this.saldo);
+				this.setAtiva(false);
 			}else{
-				//tratar erro: realizar deposito
+				System.out.println("O cliente possui um débito. Conta não cancelada.");
 			}
-			this.setAtiva(false);
 		}else{
-			// tratar erro: imprimir que conta já está encerrada
+			System.out.println("Conta já está inativa.");
 		}
 	}
 	
-//	public abstract boolean transferirValor(int numConta, int NumAgencia, double valor);
-
 	public abstract void verSituacaoConta();
-
-	public Cliente verInformaçõesCliente(){
-		//implementar aqui
-		return null;
-	}
 
 	// retorna numero de conta
 	public int getNumero() {

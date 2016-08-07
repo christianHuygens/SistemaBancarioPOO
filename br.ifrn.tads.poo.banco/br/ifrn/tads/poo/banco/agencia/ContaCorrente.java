@@ -1,5 +1,7 @@
 package br.ifrn.tads.poo.banco.agencia;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
+import br.ifrn.tads.poo.banco.cliente.PessoaFisica;
+import br.ifrn.tads.poo.banco.cliente.PessoaJuridica;
 import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public class ContaCorrente extends Conta implements InterfaceContaCorrente {
@@ -12,20 +14,13 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 		}
 
 	public boolean sacar(double valor) throws SaldoInsuficienteException{
-		if (this.saldo+this.limite<valor && this.isAtiva())
+		if (this.saldo+this.limite<valor)
 			throw new SaldoInsuficienteException();
 		else{
 			this.saldo = this.saldo - valor;
 		}
 		return true;
 	}
-	
-	
-//	@Override
-//	public boolean transferirValor(int numConta, int NumAgencia, double valor) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
 
 	public void mudarLimieteConta(double limite){
 		if(this.isAtiva()){

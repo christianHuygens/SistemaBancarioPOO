@@ -9,18 +9,18 @@ import java.util.Iterator;
 
 public class Banco {
 	String nome;
-	final int numero; 
-	int numAgencia = 0001, numAdm = 1, codDeAcessoCliente = 1; // Cada cliente tem um numero único
+	final int codigoBanco; 
+	int codAgencia = 0001, codAdm = 1, codDeAcessoCliente = 1; // Cada cliente tem um numero único
 	ArrayList <Agencia> agencias = new ArrayList <Agencia>();
 	ArrayList <Administrador> administradores = new ArrayList <Administrador>();
 	
 	// Construtor. Adiciona primeiro administrador.
 	public Banco(int numero, String nome){
 		this.nome = nome;
-		this.numero = numero;
-		Administrador primeiroAdm = new Administrador("Admin", this.numAdm, 1234);
+		this.codigoBanco = numero;
+		Administrador primeiroAdm = new Administrador("Admin", this.codAdm, 1234);
 		this.administradores.add(primeiroAdm);
-		this.numAdm++;
+		this.codAdm++;
 	}
 	
 	public void adicionarAdministrador(String nome, int numero, int senha){
@@ -55,16 +55,16 @@ public class Banco {
 	
 	public boolean adicionarAgencia(Agencia novaAgencia){
 		agencias.add(novaAgencia);
-		this.numAgencia++;
+		this.codAgencia++;
 		return true;
 	}
 	
 	
-	public Agencia buscarAgencia(int numeroAgencia){
+	public Agencia buscarAgencia(int codAgencia){
 		Agencia achado = null;
 		if(!agencias.isEmpty()){
 			for (Agencia agc: agencias)  {  
-				if (agc.getNumeroAgencia()==numeroAgencia){ 
+				if (agc.getCodAgencia()==codAgencia){ 
 					achado = agc;
 				}
 			}
@@ -86,7 +86,7 @@ public class Banco {
 	public void imprimirListaAgencias(){
 		if(!agencias.isEmpty()){
 			for (Agencia agc: agencias)  {  
-				System.out.println(agc.getNomeAgencia()+": "+agc.getNumeroAgencia());
+				System.out.println(agc.getNomeAgencia()+": "+agc.getCodAgencia());
 			}
 		}else{
 			System.out.println("Não há agencias cadastradas.");
@@ -101,19 +101,19 @@ public class Banco {
 		this.nome = nome;
 	}
 
-	public int getNumero() {
-		return numero;
+	public int getCodigoBanco() {
+		return codigoBanco;
 	}
 
-	public int getNumAgencia() {
-		return numAgencia;
+	public int getCodAgencia() {
+		return codAgencia;
 	}
 
-	public int getNumDeCadastroCliente() {
+	public int getCodDeCadastroCliente() {
 		return this.codDeAcessoCliente;
 	}
 	
-	public int addNumDeCadastroCliente() {
+	public int addCodDeCadastroCliente() {
 		return this.codDeAcessoCliente++;
 	}
 }

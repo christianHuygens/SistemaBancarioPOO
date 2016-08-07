@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Agencia implements InterfaceAgencia {
 
-	final int numeroAgencia;
+	final int codigoAgencia;
 	String nomeAgencia;
 	int numConta = 1;
 	double limiteInicial = 100; // Limite inicial de qqr conta será R$100
@@ -13,7 +13,7 @@ public class Agencia implements InterfaceAgencia {
 	ArrayList <Cliente> clientes = new ArrayList <Cliente>();
 	
 	public Agencia(int numeroAgencia, String nomeAgencia){
-		this.numeroAgencia = numeroAgencia;
+		this.codigoAgencia = numeroAgencia;
 		this.nomeAgencia = nomeAgencia;
 	}
 
@@ -33,12 +33,6 @@ public class Agencia implements InterfaceAgencia {
 		this.clientes.add(novoCliente);
 	}
 	
-//	@Override
-//	public Conta buscarConta(int numero) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 	public Cliente buscarCliente(int cadastro) {
 		Cliente achado = null;
 		for (Cliente clt: clientes){ // como parar se acabar a lista de administradores?  
@@ -64,8 +58,8 @@ public class Agencia implements InterfaceAgencia {
 		}
 	}
 	
-	public int getNumeroAgencia() {
-		return numeroAgencia;
+	public int getCodAgencia() {
+		return codigoAgencia;
 	}
 
 

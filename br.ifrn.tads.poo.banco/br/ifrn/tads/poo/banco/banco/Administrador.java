@@ -2,7 +2,8 @@ package br.ifrn.tads.poo.banco.banco;
 
 public class Administrador {
 	String nome;
-	int numero, senha;
+	final int numero;
+	int senha;
 	
 	public Administrador(String nome, int numero, int senha){
 		this.nome = nome;
@@ -20,10 +21,6 @@ public class Administrador {
 
 	public int getNumero() {
 		return numero;
-	}
-
-	public void setNumero(int numero) {
-		this.numero = numero;
 	}
 
 	public int getSenha() {

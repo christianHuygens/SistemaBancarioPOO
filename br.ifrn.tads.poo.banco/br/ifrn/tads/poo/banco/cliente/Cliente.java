@@ -79,6 +79,22 @@ public class Cliente implements InterfaceCliente {
 		
 	}
 	
+	public void verInformacoesCliente(){
+		System.out.println("Nome: "+this.getNome()+";"
+				+ "\nTelefone: "+this.getTelefone()+";"
+				+ "\nE-mail: "+this.getEmail()+";");
+		if(this instanceof PessoaFisica){
+			System.out.println("CFP: "+((PessoaFisica)this).getCPF()+".");
+		}else if(this instanceof PessoaJuridica){
+			System.out.println("CFNJ: "+((PessoaJuridica)this).getCPNJ()+";"
+					+ "\nNome Fantasia: "+((PessoaJuridica)this).getNomeFantasia()+".");
+		}
+		System.out.println("Contas:");
+		if(this.isPoupanca() || this.isCorrente()){
+			this.imprimirContas();
+		}
+	}
+	
 	public String getNome() {
 		return this.nome;
 	}

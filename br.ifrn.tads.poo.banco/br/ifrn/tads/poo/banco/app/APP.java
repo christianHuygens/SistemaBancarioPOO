@@ -57,9 +57,9 @@ public class APP {
 			case 1:
 				System.out.println("Digite o nome da Agencia que deseja criar:");
 				String nomeAgencia = ler.next();
-				Agencia novaAgencia = new Agencia(this.b.getNumAgencia(), nomeAgencia);
+				Agencia novaAgencia = new Agencia(this.b.getCodAgencia(), nomeAgencia);
 				if(this.b.adicionarAgencia(novaAgencia))
-					System.out.println("Agencia "+novaAgencia.getNomeAgencia()+" (de numero "+novaAgencia.getNumeroAgencia()+") criada com sucesso.");
+					System.out.println("Agencia "+novaAgencia.getNomeAgencia()+" (de numero "+novaAgencia.getCodAgencia()+") criada com sucesso.");
 				else
 					System.out.println("Agencia não criada. Tente novamente.");
 				break;
@@ -103,7 +103,7 @@ public class APP {
 		boolean agenciaEmAcesso = true;
 		while(agenciaEmAcesso){
 			System.out.println("////////ÁREA DE ACESSO A AGÊNCIA: "+agenciaAchada.getNomeAgencia()+" de número: "
-					+ agenciaAchada.getNumeroAgencia()+"////////"
+					+ agenciaAchada.getCodAgencia()+"////////"
 					+ "\nO que deseja fazer?"
 					+ "\n1 - Cadastrar novo Cliente;"
 					+ "\n2 - Remover Cliente;"
@@ -170,9 +170,9 @@ public class APP {
 
 			System.out.println("Digite o CPF do Cliente que deseja cadastrar:");
 			String cpfCliente = ler.next();
-			Cliente novoCliente1 = new PessoaFisica(nomeCliente1, telefoneCliente1, emailCliente1, b.getNumDeCadastroCliente(), cpfCliente);
+			Cliente novoCliente1 = new PessoaFisica(nomeCliente1, telefoneCliente1, emailCliente1, b.getCodDeCadastroCliente(), cpfCliente);
 			agenciaAchada.cadastrarCliente(novoCliente1);
-			b.addNumDeCadastroCliente();
+			b.addCodDeCadastroCliente();
 			System.out.println("Cliente "+novoCliente1.getNome()+" de numero "+novoCliente1.getCadastro()+" cadastrado com sucesso.");
 			System.out.println("Deseja cadastrar conta para cliente "+novoCliente1.getNome()+"?"
 					+ "\n1 - Sim;"
@@ -195,9 +195,9 @@ public class APP {
 			String cpnjCliente = ler.next();
 			System.out.println("Digite o NOME FANTASIA da empresa que deseja cadastrar:");
 			String nomeFatasiaCliente = ler.next();
-			Cliente novoCliente2 = new PessoaJuridica(nomeCliente2, telefoneCliente2, emailCliente2, b.getNumDeCadastroCliente(), cpnjCliente, nomeFatasiaCliente);
+			Cliente novoCliente2 = new PessoaJuridica(nomeCliente2, telefoneCliente2, emailCliente2, b.getCodDeCadastroCliente(), cpnjCliente, nomeFatasiaCliente);
 			agenciaAchada.cadastrarCliente(novoCliente2);
-			b.addNumDeCadastroCliente();
+			b.addCodDeCadastroCliente();
 			System.out.println("Cliente "+novoCliente2.getNome()+" de numero "+novoCliente2.getCadastro()+" cadastrado com sucesso.");
 			System.out.println("Deseja cadastrar conta para cliente "+novoCliente2.getNome()+"?"
 					+ "\n1 - Sim;"
@@ -230,19 +230,7 @@ public class APP {
 			switch(acaoEscolhida){
 			
 			case 1:
-				System.out.println("Nome: "+clienteAchado.getNome()+";"
-						+ "\nTelefone: "+clienteAchado.getTelefone()+";"
-						+ "\nE-mail: "+clienteAchado.getEmail()+";");
-				if(clienteAchado instanceof PessoaFisica){
-					System.out.println("CFP: "+((PessoaFisica)clienteAchado).getCPF()+".");
-				}else if(clienteAchado instanceof PessoaJuridica){
-					System.out.println("CFNJ: "+((PessoaJuridica)clienteAchado).getCPNJ()+";"
-							+ "\nNome Fantasia: "+((PessoaJuridica)clienteAchado).getNomeFantasia()+".");
-				}
-				System.out.println("Contas:");
-				if(clienteAchado.isPoupanca() || clienteAchado.isCorrente()){
-					clienteAchado.imprimirContas();
-				}
+				clienteAchado.verInformacoesCliente();
 				break;
 			case 2:
 				this.mudarDadosCliente(clienteAchado);
