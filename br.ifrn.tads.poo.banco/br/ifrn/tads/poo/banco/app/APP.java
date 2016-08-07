@@ -224,7 +224,8 @@ public class APP {
 					+ "\n5 - Acessar detalhes de conta de cliente;"
 					+ "\n6 - Calcular rencimento de Conta Poupança;"
 					+ "\n7 - Mudar limite de Conta Corrente;"
-					+ "\n8 - Sair;");
+					+ "\n8 - Mudar senha do cliente;"
+					+ "\n9 - Sair;");
 			int acaoEscolhida = ler.nextInt();
 			switch(acaoEscolhida){
 			
@@ -297,6 +298,18 @@ public class APP {
 				System.out.println("Limite atualizado para "+contaCorrente.getLimite()+".");
 				break;
 			case 8:
+				System.out.println("Peça para o cliente digitar sua ANTIGA senha:");
+				if(this.autenticarCliente(clienteAchado)){
+					System.out.println("Peça para o cliente digitar sua NOVA senha:");
+					int novaSenha1 = ler.nextInt();
+					System.out.println("Peça para o cliente REPITA a nova senha:");
+					int novaSenha2 = ler.nextInt();
+					if(novaSenha1 == novaSenha2){
+						clienteAchado.setSenha(novaSenha2);
+					}
+				}
+				break;
+			case 9:
 				clienteEmAcesso = false;
 			default:
 				System.out.println("Opção inválida. Tente novamente.");	
@@ -430,7 +443,7 @@ public class APP {
 			System.out.print("Agencia: ");
 			int agenciaCliente = ler.nextInt();
 			Agencia agenciaEmAcesso = b.buscarAgencia(agenciaCliente);
-			if(agenciaEmAcesso != null && agenciaCliente != 0){
+			if(agenciaEmAcesso != null && agenciaCliente != 0){ //zero volta para administrativo
 				System.out.print("Código:");
 				int codAcesso = ler.nextInt();
 				Cliente clienteEmAcesso = agenciaEmAcesso.buscarCliente(codAcesso);
