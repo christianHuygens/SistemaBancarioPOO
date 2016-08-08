@@ -1,6 +1,5 @@
 package br.ifrn.tads.poo.banco.app;
 import java.util.Scanner;
-
 import br.ifrn.tads.poo.banco.agencia.Agencia;
 import br.ifrn.tads.poo.banco.agencia.Conta;
 import br.ifrn.tads.poo.banco.agencia.ContaCorrente;
@@ -81,6 +80,8 @@ public class APP {
 				Agencia agenciaAchada = this.b.buscarAgencia(agenciaBuscada);
 				if(agenciaAchada != null){
 					this.acessarAgencia(agenciaAchada);
+				}else{
+					System.out.println("Agencia não encontrada.");
 				}
 				break;
 			case 4:
@@ -425,7 +426,7 @@ public class APP {
 	///////////INTERFACE CLIENTE/////////
 	
 	private void interfaceCliente() throws SaldoInsuficienteException {
-		boolean autenticado = false, interfaceCliente = true;
+		boolean interfaceCliente = true;
 		while(interfaceCliente){
 			System.out.println("////////////////////////////////"
 					+ "\nBem vindo ao banco "+b.getNome()+".\nPor favor, insira a sua Agencia e o seu código de acesso:");
@@ -476,7 +477,6 @@ public class APP {
 			}else if(agenciaEmAcesso == null && agenciaCliente == 0){
 				interfaceCliente = false;
 			}
-
 		}
 	}
 

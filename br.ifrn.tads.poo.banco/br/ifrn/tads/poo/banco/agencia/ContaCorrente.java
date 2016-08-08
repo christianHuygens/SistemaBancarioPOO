@@ -1,7 +1,5 @@
 package br.ifrn.tads.poo.banco.agencia;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
-import br.ifrn.tads.poo.banco.cliente.PessoaFisica;
-import br.ifrn.tads.poo.banco.cliente.PessoaJuridica;
 import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public class ContaCorrente extends Conta implements InterfaceContaCorrente {
@@ -34,7 +32,6 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 				+ "\nLimite: "+this.limite);	
 	}
 
-	// Retorna o limite atual da conta
 	public double getLimite() {
 		return this.limite;
 	}
@@ -43,7 +40,7 @@ public class ContaCorrente extends Conta implements InterfaceContaCorrente {
 		this.limite = limite;
 	}
 
-	public void imprimirHistorico(){ //sobre escrita de método
+	public void imprimirHistorico(){
 		double saldoDisponivel = this.verSaldo() + this.getLimite();
 		System.out.println(this.historicoTran);
 		System.out.println("---------------------------------"

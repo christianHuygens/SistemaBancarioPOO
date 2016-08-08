@@ -1,7 +1,5 @@
 package br.ifrn.tads.poo.banco.agencia;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
-import br.ifrn.tads.poo.banco.cliente.PessoaFisica;
-import br.ifrn.tads.poo.banco.cliente.PessoaJuridica;
 import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public abstract class Conta implements InterfaceConta {
@@ -10,7 +8,7 @@ public abstract class Conta implements InterfaceConta {
 	boolean ativa;
 	double saldo;
 	String historicoTran = "Extrato Bancário:\n";
-	Cliente titular; // Add relatório
+	Cliente titular;
 	
 	public Conta(int numero, double saldo, Cliente titular){
 		this.numero = numero;
@@ -28,18 +26,15 @@ public abstract class Conta implements InterfaceConta {
 		return true;
 	}
 
-	//adiciona valor ao saldo
 	public void depositar(double valor){
 		if(this.isAtiva())
 			this.saldo = this.saldo+valor;
 	}
 
-	// retorna saldo
 	public double verSaldo(){
 		return this.saldo;
 	}
 
-	//saca saldo disponível e muda boolean ativa para false
 	public void cancelarConta() throws SaldoInsuficienteException{
 		if(this.isAtiva()){
 			if(this.saldo>0){
@@ -55,17 +50,14 @@ public abstract class Conta implements InterfaceConta {
 	
 	public abstract void verSituacaoConta();
 
-	// retorna numero de conta
 	public int getNumero() {
 		return numero;
 	}
 	
-	//retorna se conta está ativa
 	public boolean isAtiva() {
 		return ativa;
 	}
 	
-	// muda status da conta
 	public void setAtiva(boolean ativa) {
 		this.ativa = ativa;
 	}	

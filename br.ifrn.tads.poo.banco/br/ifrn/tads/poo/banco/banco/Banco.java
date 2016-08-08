@@ -1,20 +1,15 @@
 package br.ifrn.tads.poo.banco.banco;
 import br.ifrn.tads.poo.banco.agencia.Agencia;
-import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 import br.ifrn.tads.poo.banco.exceptions.UsuarioNaoEncontradoException;
-
 import java.util.ArrayList;
-import java.util.Iterator;
-
 
 public class Banco {
 	String nome;
 	final int codigoBanco; 
-	int codAgencia = 0001, codAdm = 1, codDeAcessoCliente = 1; // Cada cliente tem um numero único
+	int codAgencia = 0001, codAdm = 1, codDeAcessoCliente = 1;
 	ArrayList <Agencia> agencias = new ArrayList <Agencia>();
 	ArrayList <Administrador> administradores = new ArrayList <Administrador>();
 	
-	// Construtor. Adiciona primeiro administrador.
 	public Banco(int numero, String nome){
 		this.nome = nome;
 		this.codigoBanco = numero;
@@ -28,21 +23,17 @@ public class Banco {
 		this.administradores.add(novoAdm);
 	}
 	
-	// verifica senha de administrador
 	public boolean autenticarAdm(int numero, int senha) throws UsuarioNaoEncontradoException{
 		Administrador achado = this.getAdm(numero);
 		if(achado.getSenha()==senha){
 			return true;
 			}
 			return false;
-		
-
 	}
 	
-	// procura numero de administrador no arraylist administradores e o retorna. Caso não encontre, retorna null.
 	public Administrador getAdm(int numero) throws UsuarioNaoEncontradoException{
 		Administrador achado = null;
-		for (Administrador adm: administradores){ // como parar se acabar a lista de administradores?  
+		for (Administrador adm: administradores){   
 			if (adm.getNumero()==numero){ 
 				achado = adm;
 			}

@@ -9,9 +9,9 @@ public class Cliente implements InterfaceCliente {
 	String nome, telefone, email;
 	int senha = 123456;
 	int cadastro;
-	boolean poupanca = false, corrente = false; // para não ser possivel criar mais de uma conta de cada tipo
-	int numContaCorrente, numContaPoupança; // Add relatório
-	ArrayList <Conta> contas = new ArrayList <Conta>(2); // cada cliente só terá duas contas. Uma paupança e outra corrente
+	boolean poupanca = false, corrente = false;
+	int numContaCorrente, numContaPoupança;
+	ArrayList <Conta> contas = new ArrayList <Conta>(2);
 	
 	public Cliente(String nome, String telefone, String email, int numDeCadastro){
 		this.nome = nome;
@@ -40,7 +40,7 @@ public class Cliente implements InterfaceCliente {
 	
 	public Conta buscarConta(int numDeConta) {
 		Conta achada = null;
-		for (Conta ct: contas){ // como parar se acabar a lista de administradores?  
+		for (Conta ct: contas){  
 			if (ct.getNumero()==numDeConta){ 
 				achada = ct;
 			}
@@ -50,7 +50,7 @@ public class Cliente implements InterfaceCliente {
 
 	public Conta buscarContaCorrente() {
 		Conta achada = null;
-		for (Conta ct: contas){ // como parar se acabar a lista de administradores?  
+		for (Conta ct: contas){  
 			if (ct instanceof ContaCorrente){ 
 				achada = ct;
 			}
@@ -60,7 +60,7 @@ public class Cliente implements InterfaceCliente {
 
 	public Conta buscarContaPoupanca() {
 		Conta achada = null;
-		for (Conta ct: contas){ // como parar se acabar a lista de administradores?  
+		for (Conta ct: contas){  
 			if (ct instanceof ContaPoupanca){ 
 				achada = ct;
 			}
@@ -146,8 +146,4 @@ public class Cliente implements InterfaceCliente {
 	public void setSenha(int senha) {
 		this.senha = senha;
 	}
-
-	
-	
-	
 }

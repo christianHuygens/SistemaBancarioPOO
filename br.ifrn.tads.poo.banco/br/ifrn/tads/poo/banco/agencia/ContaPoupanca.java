@@ -1,6 +1,5 @@
 package br.ifrn.tads.poo.banco.agencia;
 import br.ifrn.tads.poo.banco.cliente.Cliente;
-import br.ifrn.tads.poo.banco.exceptions.SaldoInsuficienteException;
 
 public class ContaPoupanca extends Conta implements InterfaceContaPoupanca {
 

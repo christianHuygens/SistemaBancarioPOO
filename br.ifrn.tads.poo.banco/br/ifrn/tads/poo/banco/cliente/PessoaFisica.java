@@ -16,6 +16,4 @@ public class PessoaFisica extends Cliente implements InterfacePessoaFisica {
 	public void setCPF(String cpf) {
 		this.cpf = cpf;
 	}
-
-
 }
