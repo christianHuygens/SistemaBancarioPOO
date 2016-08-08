@@ -73,7 +73,7 @@ public abstract class Conta implements InterfaceConta {
 	}
 	
 	public void escreverHistotico(String nova){
-		this.historicoTran += nova;
+		this.historicoTran += nova + "\n";
 	}
 	
 }
